@@ -18,13 +18,15 @@ struct Cache {
 };
 
 int main() {
-  struct Cache write_through_no_write;
-  struct Cache write_back_write;
+  struct Cache write_through_no_allocate;
+  struct Cache write_back_allocate;
   struct Mem_Ref mem_ref[100];
-  char line[30];
   int block_size;
   int num_sets;
   int set_associativity;
+  int num_offset_bits;
+  int num_index_bits;
+  int num_tag_bits;
   int num_ref = 0;
   int i = 0;
 
@@ -33,20 +35,33 @@ int main() {
   scanf("%i\n", &num_sets);
   scanf("%i\n", &set_associativity);
   while (scanf("%c %i\n", &mem_ref[num_ref].rw,
-        &mem_ref[num_ref].address) != EOF) {
+      &mem_ref[num_ref].address) != EOF) {
     num_ref++; 
   }
 
   // print
-  printf("%i\n", block_size);
-  printf("%i\n", num_sets);
-  printf("%i\n", set_associativity);
+  printf("Block size: %i\n", block_size);
+  printf("Number of sets: %i\n", num_sets);
+  printf("Associativity: %i\n", set_associativity);
+  printf("Number of offset bits: %i\n", num_offset_bits);
+  printf("Number of index bits: %i\n", num_index_bits);
+  printf("Number of tag bits: %i\n", num_tag_bits);
+  printf("****************************************\n");
+  printf("Write-through with No Write Allocate\n");
+  printf("****************************************\n");
+  printf("Total number of references: %i\n", write_through_no_allocate.num_ref);
+  printf("Hits: %i\n", write_through_no_allocate.hits);
+  printf("Misses: %i\n", write_through_no_allocate.misses);
+  printf("Memory References: %i\n", write_through_no_allocate.num_mem_ref);
+  printf("****************************************\n");
+  printf("Write-back with Write Allocate\n");
+  printf("****************************************\n");
+  printf("Total number of references: %i\n", write_back_allocate.num_ref);
+  printf("Hits: %i\n", write_back_allocate.hits);
+  printf("Misses: %i\n", write_back_allocate.misses);
+  printf("Memory References: %i\n", write_back_allocate.num_mem_ref);
 
-  while (i < num_ref) {
-    printf("%c %i\n", mem_ref[i].rw, mem_ref[i].address);
-    i++;
-  }
-  
+
 
   return 0;
 }
