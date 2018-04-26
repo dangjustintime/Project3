@@ -25,16 +25,28 @@ int main() {
   int block_size;
   int num_sets;
   int set_associativity;
+  int num_ref = 0;
   int i = 0;
 
   // read input
-  scanf("%i", &block_size);
-  scanf("%i", &num_sets);
-  scanf("%i", &set_associativity);
-  while (scanf("%c %i", &mem_ref[i].rw, &mem_ref[i].address)) {
-    i++; 
+  scanf("%i\n", &block_size);
+  scanf("%i\n", &num_sets);
+  scanf("%i\n", &set_associativity);
+  while (scanf("%c %i\n", &mem_ref[num_ref].rw,
+        &mem_ref[num_ref].address) != EOF) {
+    num_ref++; 
   }
 
+  // print
+  printf("%i\n", block_size);
+  printf("%i\n", num_sets);
+  printf("%i\n", set_associativity);
+
+  while (i < num_ref) {
+    printf("%c %i\n", mem_ref[i].rw, mem_ref[i].address);
+    i++;
+  }
+  
 
   return 0;
 }
