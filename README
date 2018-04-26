@@ -1,0 +1,10 @@
+-working
+	-reading and parsing
+	-calculating bits for tag, index, and offset
+	-setting up arrays for cache
+	-implementing LRU policy
+	-managing associativity
+	-test suite
+-not working
+	-simulating write-through, no write-allocate
+	-simulating write-back, write-allocate
