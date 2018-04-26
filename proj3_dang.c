@@ -15,6 +15,7 @@ struct Cache {
   int hits;
   int misses;
   int num_mem_ref;
+  struct Mem_Ref * mem_ref;
 };
 
 int main() {
@@ -22,11 +23,11 @@ int main() {
   struct Cache write_back_allocate;
   struct Mem_Ref mem_ref[100];
   int block_size;
-  int num_sets;
-  int set_associativity;
-  int num_offset_bits;
   int num_index_bits;
+  int num_offset_bits;
+  int num_sets;
   int num_tag_bits;
+  int set_associativity;
   int num_ref = 0;
   int i = 0;
 
@@ -38,6 +39,15 @@ int main() {
       &mem_ref[num_ref].address) != EOF) {
     num_ref++; 
   }
+
+  write_through_no_allocate.num_ref = num_ref;
+  write_back_allocate.num_ref = num_ref;
+
+  // dynamically allocate Mem_Ref array
+  write_through_no_allocate.mem_ref = (struct Mem_Ref *) malloc
+      (num_ref * sizeof(struct Mem_Ref));
+  write_back_allocate.mem_ref = (struct Mem_Ref *) malloc
+      (num_ref * sizeof(struct Mem_Ref));
 
   // print
   printf("Block size: %i\n", block_size);
@@ -61,7 +71,9 @@ int main() {
   printf("Misses: %i\n", write_back_allocate.misses);
   printf("Memory References: %i\n", write_back_allocate.num_mem_ref);
 
-
-
+  // deallocate array
+  free(write_through_no_allocate.mem_ref);
+  free(write_back_allocate.mem_ref);
+  
   return 0;
 }
