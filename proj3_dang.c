@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -35,11 +36,17 @@ int main() {
   scanf("%i\n", &block_size);
   scanf("%i\n", &num_sets);
   scanf("%i\n", &set_associativity);
+  
+  // parse input
   while (scanf("%c %i\n", &mem_ref[num_ref].rw,
       &mem_ref[num_ref].address) != EOF) {
     num_ref++; 
   }
 
+  num_offset_bits = log2(block_size * 4);
+  num_index_bits = log2(num_sets);
+  num_tag_bits = 32 - (num_offset_bits + num_index_bits);
+  
   write_through_no_allocate.num_ref = num_ref;
   write_back_allocate.num_ref = num_ref;
 
@@ -49,6 +56,8 @@ int main() {
   write_back_allocate.mem_ref = (struct Mem_Ref *) malloc
       (num_ref * sizeof(struct Mem_Ref));
 
+  
+  
   // print
   printf("Block size: %i\n", block_size);
   printf("Number of sets: %i\n", num_sets);
